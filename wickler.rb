@@ -2,6 +2,9 @@ require 'net/http'
 require 'rubygems'
 require 'xmlsimple'
 
+require 'rubygems'
+require 'chronic'
+
 require 'clicker'
 
 class Wickler
@@ -11,11 +14,16 @@ class Wickler
   def initialize(
       username = ENV['WICKLER_USERNAME'],
       password = ENV['WICKLER_PASSWORD'],
-      venue =    ENV['WICKLER_VENUE']
+      venue =    ENV['WICKLER_VENUE'],
+      start_time = nil,
+      end_time = nil
     )
     Net::HTTP.start(@@wickler_host_name) {|http|
-          request = Net::HTTP::Get.new("/api/index.php?venuedriver=1&venue=#{venue}")
+          request = Net::HTTP::Get.new("/api/index.php?venuedriver=1&venue=#{venue}" +
+            "&start=#{start_time}&end=#{end_time}")
           request.basic_auth username, password
+          puts "/api/index.php?venuedriver=1&venue=#{venue}" +
+            "&start=#{start_time}&end=#{end_time}"
           response = http.request(request)
           print response.body
           @data = XmlSimple.xml_in(response.body)

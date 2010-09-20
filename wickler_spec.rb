@@ -3,7 +3,13 @@ require 'wickler'
 describe 'the wickler' do
   
   before do
-    @wickler = Wickler.new
+    @wickler = Wickler.new(
+        ENV['WICKLER_USERNAME'],
+        ENV['WICKLER_PASSWORD'],
+        ENV['WICKLER_VENUE'],
+        Chronic.parse('yesterday at 8 PM').to_i,
+        Chronic.parse('three days ago').to_i
+      )
   end
   
   it 'should get data' do
