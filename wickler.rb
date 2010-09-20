@@ -6,11 +6,20 @@ require 'clicker'
 
 class Wickler
 
-  @@url = "http://www.thewickler.com/api/index.php?venuedriver=1"
+  @@wickler_host_name = "www.thewickler.com"
     
-  def initialize
-    xml_data = Net::HTTP.get_response(URI.parse(@@url)).body
-    @data = XmlSimple.xml_in(xml_data)
+  def initialize(
+      username = ENV['WICKLER_USERNAME'],
+      password = ENV['WICKLER_PASSWORD'],
+      venue =    ENV['WICKLER_VENUE']
+    )
+    Net::HTTP.start(@@wickler_host_name) {|http|
+          request = Net::HTTP::Get.new("/api/index.php?venuedriver=1&venue=#{venue}")
+          request.basic_auth username, password
+          response = http.request(request)
+          print response.body
+          @data = XmlSimple.xml_in(response.body)
+        }
   end
   
   attr_reader :data
