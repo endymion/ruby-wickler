@@ -21,13 +21,13 @@ describe 'the wickler' do
     @wickler.last_sale_time_utc.should    match /^20\d\d/
     @wickler.last_sale_time_string.should match /20\d\d/
     @wickler.last_sale_sales.should       match /\d+/
-    @wickler.last_sale_text.should        match /^WINE/
+    @wickler.last_sale_text.should        match /\w+/
     @wickler.last_sale_bottles.should     match /\d+/
     @wickler.last_sale_items.should       match /\d+/
   end
 
   it 'should return more than one clicker record' do
-    @wickler.clickers.should have(3).items
+    @wickler.clickers.should have_at_least(3).items
   end
 
   it 'should return clicker records with attributes' do
