@@ -22,8 +22,6 @@ class Wickler
           request = Net::HTTP::Get.new("/api/index.php?venuedriver=1&venue=#{venue}" +
             "&start=#{start_time}&end=#{end_time}")
           request.basic_auth username, password
-          puts "/api/index.php?venuedriver=1&venue=#{venue}" +
-            "&start=#{start_time}&end=#{end_time}"
           response = http.request(request)
           print response.body
           @data = XmlSimple.xml_in(response.body)
